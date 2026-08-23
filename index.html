@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROMPT FORGE — Training Sim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<canvas id="fx"></canvas>
+<div class="bg-grid"></div><div class="bg-glow g1"></div><div class="bg-glow g2"></div>
+<div class="scanlines"></div>
+
+<!-- ================= BOOT ================= -->
+<div id="boot">
+  <pre id="bootlog"></pre>
+  <div class="boot-main" id="bootMain">
+    <div class="boot-title" id="bootTitle"></div>
+    <div class="boot-sub" id="bootSub"></div>
+    <div class="crs-row" id="crsRow"></div>
+    <div class="boot-row">
+      <input id="agent" maxlength="14" placeholder="CALLSIGN" autocomplete="off">
+      <button class="btn btn-primary" id="beginBtn">Begin Training ▸</button>
+    </div>
+    <div class="skip-hint" id="bootHint"></div>
+  </div>
+</div>
+
+<!-- ================= APP ================= -->
+<div id="app" class="hidden">
+  <header id="hud">
+    <div class="brand" id="brand"><span class="blip"></span></div>
+    <div class="pips" id="pips"></div>
+    <div class="hud-right">
+      <div class="xpwrap"><span id="xpVal">XP 0000</span><div class="xpbar"><div class="xpfill" id="xpFill"></div></div></div>
+      <div class="rankchip" id="rankChip">NOVICE</div>
+      <button class="hbtn" id="codexBtn">CODEX</button>
+      <button class="hbtn" id="sndBtn">SND ON</button>
+      <button class="hbtn" id="resetBtn">RESET</button>
+    </div>
+  </header>
+  <main id="stage"><section id="missionView"></section></main>
+</div>
+
+<!-- overlays -->
+<div id="stamp"><div class="stamp-in" id="stampIn"></div></div>
+<div id="rankflash"><div id="rankText"></div></div>
+<div id="toast"></div>
+
+<aside id="codex">
+  <div class="cx-head"><h3>FIELD CODEX</h3><button class="hbtn" id="codexClose">✕ CLOSE</button></div>
+  <div id="codexList"></div>
+</aside>
+
+<div id="cert" class="hidden">
+  <div class="cert-card">
+    <div class="cert-stamp">✓ CERTIFIED</div>
+    <h2 id="certTitle"></h2>
+    <div class="cert-name" id="certName">AGENT</div>
+    <div class="cert-stats">
+      <div class="cstat"><b id="cXp">0</b><span>TOTAL XP</span></div>
+      <div class="cstat"><b id="cSync">0%</b><span>AVG SYNC</span></div>
+      <div class="cstat"><b id="cMiss">0/0</b><span>MISSIONS</span></div>
+    </div>
+    <div class="cert-protos" id="certProtos"></div>
+    <div style="display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary" id="rerunBtn">↻ Re-run Training</button>
+      <button class="btn btn-ghost" id="certCodexBtn">Open Codex</button>
+    </div>
+    <div class="cert-foot" id="certFoot"></div>
+  </div>
+</div>
+
+<footer>FORGE ENGINE v1.0 · COURSE-AGNOSTIC TRAINING SIM · ALL MODEL OUTPUTS IN THIS SIM ARE SYNTHETIC</footer>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
