@@ -11,14 +11,14 @@ export default {
   slots: [
     { id: "DATA", label: "DATA INJECTION", options: [
       { t: "Summarize our support tickets — you know our product and how customers typically feel about tools like this, so use that understanding.", q: 0, why: "It doesn't know your tickets — permission to 'use understanding' is permission to invent." },
-      { t: "Summarize our support tickets. You know our product.", q: 0, why: "It doesn't know your tickets — it will invent plausible-sounding ones." },
+      { t: "Summarize this week's support tickets — you already know our product and our users well enough to fill in the gaps.", q: 0, why: "It doesn't know your tickets — 'fill in the gaps' is permission to invent." },
       { t: "Users complained about exports, docs and billing, roughly.", q: 1, why: "Your paraphrase is lossy and biased — pass the raw signal instead." },
       { t: "Analyze the tickets provided below, fenced between <tickets> and </tickets>.", q: 2, why: "Verbatim data, fenced by delimiters — the model works on your reality." },
     ]},
     { id: "SCOPE", label: "SCOPE RULE", options: [
       { t: "Feel free to enrich the digest with industry best practices, benchmarks and any relevant background that would make it more complete and actionable for the team.", q: 0, why: "You opened the door to outside noise — the digest blurs into generic advice." },
       { t: "Also add industry best practices.", q: 0, why: "Invites outside noise; the digest stops being about YOUR tickets." },
-      { t: "Mostly stick to the tickets.", q: 1, why: "'Mostly' is a hole — hallucination walks in through soft words." },
+      { t: "Stay strictly close to the tickets and don't wander into general advice.", q: 1, why: "'Close' is still a judgment call — soft words leave the door open for invention." },
       { t: "Use only the tickets provided. If a claim isn't in them, write UNKNOWN.", q: 2, why: "Hard boundary + fallback behavior. Invention becomes impossible." },
     ]},
   ],

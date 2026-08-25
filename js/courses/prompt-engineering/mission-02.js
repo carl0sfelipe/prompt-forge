@@ -11,15 +11,15 @@ export default {
   slots: [
     { id: "ROLE", label: "PERSONA", options: [
       { t: "Act as a brilliant, world-class expert with deep knowledge across law, business and technology, and a friendly, helpful personality.", q: 0, why: "Flattery is not a specialty. A lens that focuses on everything focuses on nothing." },
-      { t: "Act as a helpful assistant.", q: 0, why: "Default persona: polite, shallow, zero domain lens." },
+      { t: "Act as a warm, friendly, brilliant general-purpose assistant who is deeply knowledgeable about everything and always eager to help with any task you bring.", q: 0, why: "A lens that focuses on everything focuses on nothing — impressive résumé, no specialty." },
       { t: "Act as a lawyer.", q: 1, why: "Right field, no specialty — you'll get generalities, not contract insight." },
-      { t: "Act as a senior contract attorney — 15 years negotiating SaaS vendor agreements — risk-averse and detail-obsessed.", q: 2, why: "Specialty + seniority + disposition. The lens is ground to prescription." },
+      { t: "Act as a senior contract attorney: 15 years negotiating SaaS vendor deals, risk-averse, detail-obsessed.", q: 2, why: "Specialty + seniority + disposition. The lens is ground to prescription." },
     ]},
     { id: "DIR", label: "DIRECTIVE", options: [
       { t: "Review the contract from every possible angle and tell me everything you can find about it, including general considerations that might apply to agreements like this.", q: 0, why: "Unbounded scope invites an unsorted dump — volume dressed as thoroughness." },
       { t: "Tell me if this contract is good.", q: 0, why: "'Good' is undefined — an unanswerable question invites a shrug." },
-      { t: "Summarize the risks in this contract.", q: 1, why: "Gets risks, but no ranking and no evidence — unusable in a negotiation." },
-      { t: "List risks ranked by severity. Quote each clause number. Propose one redline per risk.", q: 2, why: "Ranked, cited, actionable — the shape of a deliverable, not a vibe." },
+      { t: "Go through the contract carefully and summarize all the risks you can find in it.", q: 1, why: "Gets risks, but no ranking and no evidence — unusable in a negotiation." },
+      { t: "Rank risks by severity. Quote each clause. Propose one redline per risk.", q: 2, why: "Ranked, cited, actionable — the shape of a deliverable, not a vibe." },
     ]},
   ],
   outcomes: {

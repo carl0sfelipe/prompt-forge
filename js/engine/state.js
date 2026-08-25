@@ -2,7 +2,10 @@
    STATE — persistent game state (localStorage), no DOM here.
    Persisted per course: progress survives reloads & re-runs.
    ============================================================ */
-const keyFor = courseId => `forge:save:${courseId}`;
+/* SCHEMA_VERSION — bump when the mission/save shape changes in a way that
+   invalidates old progress (e.g. inserting intro missions re-indexed saves). */
+const SCHEMA_VERSION = 2;
+const keyFor = courseId => `forge:v${SCHEMA_VERSION}:save:${courseId}`;
 
 export function newState(courseId){
   return {

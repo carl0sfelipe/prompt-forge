@@ -11,7 +11,7 @@ export default {
   slots: [
     { id: "FMT", label: "OUTPUT FORMAT", options: [
       { t: "Format the output so it looks clean, professional and visually appealing, with a nice structure that anyone on the team will enjoy reading.", q: 0, why: "Aesthetics for humans, chaos for parsers — engineering gets prose and writes a parser anyway." },
-      { t: "Make it look nice.", q: 0, why: "'Nice' is not a format. The consumer is a service, not a person." },
+      { t: "Format it so it looks great when someone opens the file — clean structure, nice presentation, easy on the eyes.", q: 0, why: "Aesthetics for humans, chaos for parsers — engineering gets prose and writes a parser anyway." },
       { t: "Give me a list of the tags.", q: 1, why: "Shape-ish, but no contract — bullets? commas? prose mixed in?" },
       { t: 'Return JSON only: {"tags":[{"label":string,"sentiment":enum}]}. No prose before or after.', q: 2, why: "Schema + exclusion clause. Parseable on the first try." },
     ]},

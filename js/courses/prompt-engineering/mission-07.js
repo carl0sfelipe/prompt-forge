@@ -17,7 +17,7 @@ export default {
     ]},
     { id: "TASK", label: "TASK CORE", options: [
       { t: "Investigate everything about this incident thoroughly — root cause, contributing factors, customer impact, business implications and long-term prevention strategy.", q: 0, why: "Sounds thorough, defines no deliverable — the model picks its own shape and depth." },
-      { t: "Figure out what happened.", q: 0, why: "No deliverable defined — the model picks its own shape." },
+      { t: "Look through everything that happened during this incident from start to finish and tell me everything about it in full detail.", q: 0, why: "No deliverable defined — an unbounded 'everything' lets the model pick its own shape." },
       { t: "Explain the outage.", q: 1, why: "One blurry deliverable; executives and engineers have different needs." },
       { t: "Two deliverables: (a) a 4-sentence incident summary for executives; (b) a numbered fix list for engineers.", q: 2, why: "Two named outputs, two named audiences. Nothing to guess." },
     ]},
@@ -41,7 +41,7 @@ export default {
     ]},
     { id: "RSN", label: "REASONING", options: [
       { t: "Analyze this like a detective — follow every lead and hunch to its conclusion before answering, and have full confidence in your final conclusions.", q: 0, why: "Hunch-chasing with mandated confidence — the opposite of an auditable incident chain." },
-      { t: "Give me your best first guess.", q: 0, why: "First guesses at 3 AM start wars in post-mortems." },
+      { t: "Just give me your gut feeling right now — what do you think happened, and what's the first thing we should try?", q: 0, why: "First guesses at 3 AM start wars in post-mortems." },
       { t: "Think carefully about it.", q: 1, why: "Invisible effort — you can't audit 'carefully'." },
       { t: "Reconstruct the timeline first, then identify the trigger event, then propose fixes ordered by impact.", q: 2, why: "An auditable chain: timeline → trigger → fixes. Order implies priority." },
     ]},

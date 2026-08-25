@@ -8,10 +8,13 @@
      mission — the operative must re-run (fresh shuffle).
    - XP is granted ONCE per mission, on the first passing run.
    - AVG SYNC on the certificate = best sync per mission.
+
+   All engine-rendered strings come from i18n.js (t/tf).
    ============================================================ */
 import { getState, save } from "./state.js";
 import { scoreRun, mayAdvance, rankFor, XP_PER_POINT } from "./scoring.js";
 import { $, esc, toast, shuffle, updateHUD, renderCodex, streamText, showCert } from "./ui.js";
+import { t, tf } from "./i18n.js";
 import { SFX } from "./audio.js";
 import { burst, burstAt } from "./fx.js";
 
@@ -24,8 +27,8 @@ const LETTERS = ["A", "B", "C", "D", "E", "F"];
 /* ---------------- transition ---------------- */
 export function stampTo(idx, course){
   const m = course.missions[idx];
-  $("#stampIn").innerHTML = `<div class="st-code">INCOMING MISSION · ${esc(m.code)} / ${String(course.missions.length).padStart(2, "0")}</div>
-    <div class="st-name">${esc(m.name)}</div><div class="st-skill">SKILL: ${esc(m.skill)}</div>`;
+  $("#stampIn").innerHTML = `<div class="st-code">${t("incoming")} · ${esc(m.code)} / ${String(course.missions.length).padStart(2, "0")}</div>
+    <div class="st-name">${esc(m.name)}</div><div class="st-skill">${t("skill")}${esc(m.skill)}</div>`;
   $("#stamp").classList.add("on");
   setTimeout(() => {
     getState().mi = idx; save();
@@ -45,34 +48,34 @@ export function renderMission(course){
   <div class="mhead">
     <div class="ghost">${esc(m.code)}</div>
     <div class="mmeta">
-      <div class="mcode">${esc(m.code)} / ${String(course.missions.length).padStart(2, "0")} · MISSION BRIEF · OPERATIVE: ${esc(S.codename)}</div>
+      <div class="mcode">${esc(m.code)} / ${String(course.missions.length).padStart(2, "0")} · ${t("missionBrief")} · ${t("operative")}${esc(S.codename)}</div>
       <h1 class="mname">${esc(m.name)}</h1>
-      <div class="mskill">SKILL TRAINED — ${esc(m.skill)}</div>
+      <div class="mskill">${t("skillTrained")}${esc(m.skill)}</div>
     </div>
   </div>
   <div class="mgrid">
     <aside class="panel cyan">
-      <div class="ptitle">MISSION BRIEF</div>
+      <div class="ptitle">${t("missionBrief")}</div>
       <div class="brief-body">
         <p class="obj">${m.brief.obj}</p>
-        <div><div class="ptitle" style="padding:0 0 .5rem">PROVIDED DATA</div><div class="datablock">${esc(m.brief.data)}</div></div>
-        <p class="fnote"><b>FIELD NOTE ▸</b> ${m.brief.note}</p>
-        <div><div class="ptitle" style="padding:0 0 .5rem">SUCCESS CRITERIA</div>
+        <div><div class="ptitle" style="padding:0 0 .5rem">${t("providedData")}</div><div class="datablock">${esc(m.brief.data)}</div></div>
+        <p class="fnote"><b>${t("fieldNote")}</b> ${m.brief.note}</p>
+        <div><div class="ptitle" style="padding:0 0 .5rem">${t("successCriteria")}</div>
           <div class="criteria">${m.brief.criteria.map(c => `<span class="chip">✓ ${esc(c)}</span>`).join("")}</div></div>
       </div>
     </aside>
     <section class="panel">
-      <div class="ptitle">PROMPT ASSEMBLY CONSOLE</div>
+      <div class="ptitle">${t("console")}</div>
       <div class="console">
         <div id="slots">${m.slots.map(s => `
           <div class="slot" data-slot="${esc(s.id)}">
             <div class="slab"><i></i>${esc(s.label)}</div>
-            <div class="sval empty" id="sv-${esc(s.id)}">// awaiting component…</div>
+            <div class="sval empty" id="sv-${esc(s.id)}">${t("awaiting")}</div>
           </div>`).join("")}
         </div>
-        <div class="deckhead"><span id="deckTitle">COMPONENT SHELF</span><span>select a component · click again to replace</span></div>
+        <div class="deckhead"><span id="deckTitle">${t("shelf")}</span><span>${t("shelfHint")}</span></div>
         <div class="deck" id="deck"></div>
-        <div class="runwrap"><button class="btn btn-primary btn-wide" id="runBtn">⚡ Compile &amp; Run Prompt</button></div>
+        <div class="runwrap"><button class="btn btn-primary btn-wide" id="runBtn">${t("run")}</button></div>
       </div>
       <div id="result" class="hidden"></div>
     </section>
@@ -94,7 +97,7 @@ function paintActive(){
 function renderDeck(course){
   const m = course.missions[getState().mi];
   const slot = m.slots.find(s => s.id === activeSlot);
-  $("#deckTitle").textContent = "COMPONENT SHELF — " + slot.label;
+  $("#deckTitle").textContent = t("shelf") + " — " + slot.label;
   $("#deck").innerHTML = slot._opts.map((o, i) => {
     const picked = sel[slot.id] === i;
     const cls = "optcard" + (picked ? " picked" : "") + (locked ? (picked ? " reveal-" + o.q : " dimmed") : "");
@@ -120,12 +123,13 @@ function compile(course){
   const m = course.missions[S.mi];
   const missing = m.slots.filter(s => sel[s.id] === undefined);
   if(missing.length){
-    SFX.err(); toast("⚠ ALL " + m.slots.length + " SLOTS REQUIRED — " + missing[0].label + " EMPTY", true);
+    SFX.err();
+    toast(tf("slotsRequired", { n: m.slots.length, label: missing[0].label }), true);
     document.querySelector(`.slot[data-slot="${missing[0].id}"]`).classList.add("active");
     return;
   }
   locked = true;
-  const btn = $("#runBtn"); btn.disabled = true; btn.classList.add("charging"); btn.textContent = "COMPILING…";
+  const btn = $("#runBtn"); btn.disabled = true; btn.classList.add("charging"); btn.textContent = t("compiling");
   SFX.run();
   setTimeout(() => { btn.classList.remove("charging"); showResult(course, m); }, 950);
 }
@@ -137,14 +141,15 @@ function showResult(course, m){
   const firstPass = advance && !S.granted[S.mi];
   const gain = firstPass ? run.pts * XP_PER_POINT : 0;
 
-  const tierName = { good: "FLAWLESS OUTPUT", mid: "PARTIAL SYNC", bad: "CHAOS OUTPUT" }[run.tier];
+  const tierName = { good: t("tierGood"), mid: t("tierMid"), bad: t("tierBad") }[run.tier];
   S.syncs[S.mi] = Math.max(S.syncs[S.mi] ?? 0, run.sync);
 
   const rows = m.slots.map(s => ({ slot: s, opt: s._opts[sel[s.id]] }));
+  const badgeTxt = [t("bAnti"), t("bPass"), t("bMaster")];
   rows.forEach(r => {
     const b = document.createElement("span");
     b.className = "qbadge qb" + r.opt.q;
-    b.textContent = ["✗ ANTI-PATTERN", "△ PASSABLE", "✓ MASTER"][r.opt.q];
+    b.textContent = badgeTxt[r.opt.q];
     document.querySelector(`.slot[data-slot="${r.slot.id}"]`).appendChild(b);
   });
   renderDeck(course);
@@ -159,37 +164,37 @@ function showResult(course, m){
   const last = S.mi === course.missions.length - 1;
   const next = course.missions[S.mi + 1];
   const verdictMsg = !advance
-    ? "OUTPUT REJECTED — 0 XP GRANTED · RE-RUN REQUIRED"
-    : firstPass ? "XP GRANTED — " + (run.tier === "good" ? "EXEMPLARY. THAT PROMPT IS PRODUCTION-READY." : "FUNCTIONAL. TIGHTEN EVERY SLOT FOR A FLAWLESS OUTPUT.")
-    : "+0 XP — ALREADY GRANTED FOR THIS MISSION";
+    ? t("xpRejected")
+    : firstPass ? (run.tier === "good" ? t("xpGood") : t("xpMid"))
+    : t("xpAlready");
 
   const res = $("#result"); res.classList.remove("hidden");
   res.innerHTML = `
     <div class="tierrow"><span class="tier t-${run.tier}">${tierName}</span>
-      <span class="tiersub">SYNC ${run.sync}% · ${run.pts}/${run.max} PTS · best: ${S.syncs[S.mi]}% · protocol "${esc(m.protocol.name)}" ${advance ? "recorded" : "NOT recorded"}</span></div>
+      <span class="tiersub">${t("sync")} ${run.sync}% · ${run.pts}/${run.max} ${t("pts")} · ${t("best")}${S.syncs[S.mi]}% · ${t("protocolW")} "${esc(m.protocol.name)}" ${advance ? t("recorded") : t("notRecorded")}</span></div>
     <div>
-      <div class="ptitle" style="padding:0 0 .5rem">SIMULATED MODEL RESPONSE</div>
+      <div class="ptitle" style="padding:0 0 .5rem">${t("simResponse")}</div>
       <div class="outbox"><span id="otype"></span><span class="cursorblk"></span></div>
     </div>
     <div id="afterStream" class="hidden" style="display:flex;flex-direction:column;gap:1.2rem">
-      <div><div class="ptitle" style="padding:0 0 .5rem">COMPONENT VERDICT</div>
+      <div><div class="ptitle" style="padding:0 0 .5rem">${t("componentVerdict")}</div>
         <div class="verdict">${rows.map((r, i) => `
           <div class="vrow" style="animation-delay:${i * .12}s">
-            <div class="vs v${r.opt.q}">${["✗ ANTI", "△ PASS", "✓ MASTER"][r.opt.q]} · ${esc(r.slot.label)}</div>
+            <div class="vs v${r.opt.q}">${[t("vAnti"), t("vPass"), t("vMaster")][r.opt.q]} · ${esc(r.slot.label)}</div>
             <div class="vt">“${esc(r.opt.t.length > 90 ? r.opt.t.slice(0, 90) + "…" : r.opt.t)}”<br><b>→</b> ${r.opt.why}</div>
           </div>`).join("")}
         </div></div>
       <div class="xpgrant ${advance ? "" : "reject"}"><span class="big" id="xpCount">+${gain}</span>${esc(verdictMsg)}</div>
       ${advance ? `
-      <div class="lesson"><div class="ll">◆ PROTOCOL UNLOCKED — CODEX UPDATED</div>
+      <div class="lesson"><div class="ll">${t("unlocked")}</div>
         <h4>${esc(m.protocol.name)}</h4><p>${m.protocol.desc}</p></div>` : `
-      <div class="lesson"><div class="ll">⚠ GATE ACTIVE — MISSION NOT CLEARED</div>
-        <h4>The model mirrors your precision.</h4><p>Below half sync: the output is unusable. Study the verdicts, then re-run — the components will be reshuffled.</p></div>`}
+      <div class="lesson"><div class="ll">${t("gate")}</div>
+        <h4>${t("gateTitle")}</h4><p>${t("gateBody")}</p></div>`}
       <div class="btnrow">
         ${advance
-          ? `<button class="btn btn-primary" id="contBtn">${last ? "★ Claim Certification" : "Advance to " + esc(next.code) + " · " + esc(next.name) + " ▸"}</button>
-             <button class="btn btn-ghost" id="replayBtn">↻ Re-run for mastery</button>`
-          : `<button class="btn btn-danger btn-wide" id="rerunBtn">↻ Re-run Mission (components reshuffled)</button>`}
+          ? `<button class="btn btn-primary" id="contBtn">${last ? t("claimCert") : t("advanceTo") + esc(next.code) + " · " + esc(next.name) + " ▸"}</button>
+             <button class="btn btn-ghost" id="replayBtn">${t("replay")}</button>`
+          : `<button class="btn btn-danger btn-wide" id="rerunBtn">${t("rerunBtn")}</button>`}
       </div>
     </div>`;
 
@@ -212,7 +217,7 @@ function showResult(course, m){
     updateHUD(course); save();
     if(newRank > oldRank){
       setTimeout(() => {
-        $("#rankText").textContent = "RANK UP — " + course.ranks[newRank][1];
+        $("#rankText").textContent = t("rankUp") + course.ranks[newRank][1];
         const rf = $("#rankflash"); rf.classList.remove("on"); void rf.offsetWidth; rf.classList.add("on");
         SFX.rank(); burst(innerWidth / 2, innerHeight / 2, "255,179,71", 40);
       }, 1100);

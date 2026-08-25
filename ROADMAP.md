@@ -11,6 +11,13 @@ Priorizado por valor ÷ esforço. Marcos curtos de preferência: cada item deve 
 - [x] Persistência de progresso (localStorage) + RESET no HUD
 - [x] Fix de render: textos de opções agora escapam HTML (`<tickets>` sumia da tela no esboço original)
 
+## ✅ Feito na v1.1 (2026-08-25)
+
+- [x] **i18n EN/PT-BR completo**: seletor no boot (detecta `navigator.language`), strings da engine em dicionário, curso traduzido via overrides em `pt/` com merge indexado — tradução nunca muda o `q`
+- [x] **4 missões de introdução (I1–I4)**: FIRST CONTACT (modelo mental do iniciante absoluto), THE LOOP (iteração), TRUST THEN VERIFY (alucinação/fontes), THE SAFE OPERATOR (perímetro de dados + responsabilidade) — progressão agora vai do zero absoluto ao profissional
+- [x] **Fim do tell posicional**: perfis de comprimento da master variam por slot (linter passou a checar dominância >60% de uma mesma posição); lint CLEAN em EN e PT
+- [x] Ranks rebalanceados (6 ranks até MESTRE DO PROMPT @ 1100/1300 XP) + versionamento de save (v2)
+
 ## 🎯 Curto prazo — dificuldade e profundidade (próximas 2–3 sessões)
 
 1. **Modos de dificuldade** (RECRUIT / OPERATIVE / PHANTOM)
@@ -22,8 +29,8 @@ Priorizado por valor ÷ esforço. Marcos curtos de preferência: cada item deve 
 
 ## 🧩 Médio prazo — conteúdo e retenção
 
-5. **i18n PT-BR** — campo `lang` no manifest + missões traduzidas; seletor na boot screen junto ao seletor de cursos.
-6. **Segundo curso piloto (3–4 missões)** para provar a modularidade — candidatos: *Git interativo*, *Regex*, *Higiene de segurança digital* (phishing, senhas, 2FA).
+5. ~~**i18n PT-BR**~~ ✅ feito na v1.1 (framework pronto para `es/` etc.)
+6. **Segundo curso piloto (3–4 missões)** para provar a modularidade — candidatos: *Git interativo*, *Regex*, *Higiene de segurança digital* (phishing, senhas, 2FA). O framework de tradução já está pronto para nascer bilíngue.
 7. **Free-text grading (rascunho)** — missão final do curso: jogador ESCREVE o prompt num textarea; rubrica heurística local (keywords obrigatórias, proibidas, comprimento) dá o score. Difere do múltipla escolha e é o maior salto de dificuldade possível. LLM-judge opcional fica para quando houver backend.
 8. **Missões bônus desbloqueáveis** — 1 missão extra por curso, liberada só com avg sync ≥ 90%.
 9. **Compartilhar certificado** — renderizar o certificado em canvas → PNG para download.

@@ -1,20 +1,21 @@
 # PROMPT // FORGE — Training Sim
 
-Jogo/simulador de treinamento em **prompt engineering**. O jogador monta prompts por componentes (task, persona, grounding, formato, constraints, reasoning), compila e vê a saída simulada do "modelo" — boa, medíocre ou caótica, dependendo da qualidade das escolhas.
+Jogo/simulador de treinamento em **prompt engineering**, bilíngue (EN/PT-BR). O jogador monta prompts por componentes (task, persona, grounding, formato, constraints, reasoning), compila e vê a saída simulada do "modelo" — boa, medíocre ou caótica, dependendo da qualidade das escolhas.
+
+A progressão leva um **iniciante absoluto** ao nível profissional: I1–I4 (fundamentos, iteração, verificação, segurança) → M1–M6 (técnicas profissionais) → MT (prova final). Total: 11 missões, 1300 XP.
 
 A engine é **course-agnostic**: o mesmo motor roda qualquer curso que siga o schema de dados. Criar um curso novo = criar uma pasta de dados, sem tocar na engine.
 
 ## Rodar
 
-Requer um servidor HTTP simples (módulos ES não abrem via `file://`):
-
 ```bash
 cd prompt-forge
-python3 -m http.server 8080
+python3 serve.py          # recomendado: envia Cache-Control no-store (recarrega sempre fresco)
+# ou: python3 -m http.server 8080  (funciona, mas o browser pode cachear módulos ES entre edições)
 # ou: npx serve .
 ```
 
-Abra `http://localhost:8080`. (No VS Code, a extensão *Live Server* também serve.)
+Abra `http://127.0.0.1:8137` (serve.py) ou a porta correspondente. (No VS Code, a extensão *Live Server* também serve.)
 
 ## Estrutura
 
@@ -22,23 +23,36 @@ Abra `http://localhost:8080`. (No VS Code, a extensão *Live Server* também ser
 index.html        # só o esqueleto do DOM (zero lógica)
 css/main.css      # todo o visual (tema cyberpunk, tokens em :root)
 js/
-  main.js           # bootstrap: boot screen, seletor de cursos, botões do HUD
+  main.js           # bootstrap: boot screen, idioma + seletor de cursos, HUD
   engine/           # ENGINE — não conhece nenhum curso específico
-    state.js        # estado persistente (localStorage), por curso
+    state.js        # estado persistente (localStorage), por curso (com versionamento)
     scoring.js      # funções puras: scoreRun, rankFor, gate
     mission.js      # render da missão, console de montagem, compile, resultado
     ui.js           # helpers de DOM, HUD, codex, certificado, toast
+    i18n.js         # dicionário de strings da ENGINE (en/pt) + locale
+    localize.js     # merge puro: curso base + overrides de tradução
     audio.js        # synth WebAudio (sem assets)
     fx.js           # canvas: chuva de glyphs + bursts de partículas
     validate.js     # linter de cursos — detecta exploits de autoria
   courses/
     registry.js     # O ÚNICO ponto para registrar um curso novo
     prompt-engineering/
-      course.js     # manifest: id, título, ranks, lista de missões
-      mission-*.js  # 1 arquivo por missão (dados puros)
+      course.js     # manifest: id, título, ranks, lista de missões, locales
+      intro-*.js    # missões I1–I4 (iniciante absoluto)
+      mission-*.js  # missões M1–MT (nível profissional)
+      pt/           # tradução PT-BR: 1 arquivo por missão + manifest
 ```
 
 **Regra de ouro para vibe coding:** conteúdo mora em `js/courses/**`, comportamento mora em `js/engine/**`. Quer mudar uma pergunta? Edite `mission-*.js`. Quer mudar pontuação/XP? Edite `scoring.js`. Nada de caçar lógica dentro de HTML.
+
+## Idiomas (i18n)
+
+- Seletor **EN / PT** na tela de boot; detecta `navigator.language` e persiste em `localStorage`.
+- **Strings da engine** (HUD, vereditos, botões, certificado): dicionário em `js/engine/i18n.js`.
+- **Conteúdo do curso**: overrides em `js/courses/<curso>/pt/` — 1 arquivo por missão, keyed by code no `pt/course.js`.
+- O merge (`localize.js`) copia `q` **apenas** do curso-base inglês: tradução nunca muda qual opção é a correta (opções alinham por índice).
+- Progresso é **compartilhado entre idiomas** (mesmo course id).
+- Para adicionar um idioma: crie a pasta (`es/`, …), adicione o dicionário em `i18n.js` e a entrada em `LANGS`.
 
 ## Como criar um curso novo
 
@@ -76,10 +90,12 @@ O bug nº 1 deste gênero de jogo: **a resposta certa ser sempre a mais longa**.
 
 1. **4 opções por slot**: exatamente 1 master (`q:2`), 1 passável (`q:1`), 2 armadilhas (`q:0`).
 2. **Comprimento não é pista**: em todo slot, pelo menos uma armadilha deve ser **mais longa** que a master. A armadilha longa ideal é verbosa, confiante e "profissional" — mas contém um anti-padrão (vagueza, porta pra alucinação, formato delegado). A lição embutida: *precisão é informação, não word count*.
-3. **Posição nunca é pista**: a engine embaralha as opções a cada render (já automático).
-4. **Por que errar ensina**: toda opção tem `why` — o veredito explica o anti-padrão.
+3. **Nem sempre a mesma posição**: o perfil de comprimento da master (2ª mais longa, 3ª mais longa…) deve **variar entre slots** — se a master é sempre a 2ª maior, "clica na segunda maior" vira estratégia.
+4. **Posição nunca é pista**: a engine embaralha as opções a cada render (já automático).
+5. **Por que errar ensina**: toda opção tem `why` — o veredito explica o anti-padrão.
+6. **A regra vale por idioma**: as traduções herdaram perfis próprios, verificáveis pelo mesmo linter.
 
-O linter (`validate.js`) roda no boot e acusa no console do navegador se um curso viola 1, 2 (master sempre a maior/menor) — procure por `COURSE LINT`. Lint limpo = sem exploit de comprimento.
+O linter (`validate.js`) roda no boot (base + todos os locales) e acusa no console do navegador violações de 1, 2, 3 e desalinhamento de índice nas traduções — procure por `COURSE LINT`. Lint limpo = sem exploits de comprimento.
 
 ## Mecânica de jogo (engine)
 

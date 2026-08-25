@@ -17,7 +17,7 @@ export default {
     ]},
     { id: "CHK", label: "SELF-CHECK", options: [
       { t: "Review your final answer very carefully, multiple times, and only send it once you are completely sure it is the best possible response.", q: 0, why: "Effort theater — invisible, unverifiable, and it changes nothing about the output's structure." },
-      { t: "Be concise — leadership is busy.", q: 0, why: "Brevity is fine, but a wrong answer delivered briefly is still wrong." },
+      { t: "Keep it high-level and very concise — remember that leadership is extremely busy and has no patience for long documents.", q: 0, why: "Brevity is fine, but a wrong answer delivered briefly is still wrong." },
       { t: "Double-check your answer before replying.", q: 1, why: "Invisible instruction — you can't see whether it actually checked anything." },
       { t: 'End with "What would change my answer": three data points that could flip the recommendation.', q: 2, why: "Visible self-check: exposes the conclusion's weak joints instead of hiding them." },
     ]},

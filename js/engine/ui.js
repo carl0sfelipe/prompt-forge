@@ -4,6 +4,7 @@
    ============================================================ */
 import { getState } from "./state.js";
 import { rankFor } from "./scoring.js";
+import { t, tf } from "./i18n.js";
 import { burst } from "./fx.js";
 import { SFX } from "./audio.js";
 
@@ -44,8 +45,8 @@ export function renderCodex(course){
   const S = getState();
   $("#codexList").innerHTML = course.missions.map(m => {
     const un = S.unlocked.includes(m.code);
-    return `<div class="cx-item ${un ? "" : "locked"}"><h5>${un ? "◆ " + esc(m.protocol.name) : "▒▒ ENCRYPTED"}</h5>
-      <p>${un ? m.protocol.desc : "Complete " + esc(m.code) + " · " + esc(m.name) + " to decrypt this protocol."}</p></div>`;
+    return `<div class="cx-item ${un ? "" : "locked"}"><h5>${un ? "◆ " + esc(m.protocol.name) : t("encrypted")}</h5>
+      <p>${un ? m.protocol.desc : tf("decrypt", { code: m.code, name: m.name })}</p></div>`;
   }).join("");
 }
 
@@ -53,7 +54,7 @@ export function showCert(course){
   const S = getState();
   const syncs = S.syncs.filter(v => typeof v === "number");
   $("#certTitle").textContent = course.certTitle;
-  $("#certName").textContent = "OPERATIVE · " + S.codename;
+  $("#certName").textContent = t("operativeCert") + S.codename;
   $("#cXp").textContent = S.xp;
   $("#cSync").textContent = (syncs.length ? Math.round(syncs.reduce((a, b) => a + b, 0) / syncs.length) : 0) + "%";
   $("#cMiss").textContent = S.cleared.filter(Boolean).length + "/" + course.missions.length;

@@ -18,7 +18,7 @@ export default {
     { id: "LOCK", label: "CONSISTENCY RULE", options: [
       { t: "Improve on the examples wherever you see an opportunity to be smarter or more helpful — use your best judgment to make each label even better than shown.", q: 0, why: "Invites drift — every 'improvement' is a new format humans must relearn." },
       { t: "Improve on the examples where you can.", q: 0, why: "Same trap: 'improvement' at 400 tickets/day means 400 different formats." },
-      { t: "Use the examples as guidance.", q: 1, why: "'Guidance' licenses improvisation on the boring cases." },
+      { t: "Use the examples as loose guidance for tone, shape and labels.", q: 1, why: "'Loose guidance' licenses improvisation on the boring cases." },
       { t: "Follow the example format exactly. If uncertain, output OTHER.", q: 2, why: "Mirror rule + safe fallback = a stable pipeline at 400/day." },
     ]},
   ],

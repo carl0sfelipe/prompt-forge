@@ -19,7 +19,7 @@ export default {
     ]},
     { id: "AUD", label: "AUDIENCE + GOAL", options: [
       { t: "Write it for everyone — customers, prospects, partners, internal teams — anyone who might care. Keep the tone fun and broadly appealing.", q: 0, why: "'Everyone' is no one. A prompt aimed at all audiences produces mush for every audience." },
-      { t: "Write it for everyone. Keep it fun.", q: 0, why: "Tone without audience — the model invents its own reader, usually a generic one." },
+      { t: "Write it for absolutely everyone — customers, prospects, partners and the whole wide world — keep it fun, light and super casual.", q: 0, why: "'Everyone' is no one. A prompt aimed at all audiences produces mush for every audience." },
       { t: "Write it for technical teams.", q: 1, why: "Audience named, but no desired outcome — what should they do after reading?" },
       { t: "Audience: SaaS engineering leads drowning in release chores. Goal: they try Launchpad on their next release.", q: 2, why: "Audience + intended behavior. Now the prompt can actually aim." },
     ]},
