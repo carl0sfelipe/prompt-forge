@@ -1,5 +1,7 @@
 # PROMPT // FORGE — Training Sim
 
+**▶ Jogar agora:** https://carl0sfelipe.github.io/prompt-forge/
+
 Jogo/simulador de treinamento em **prompt engineering**, bilíngue (EN/PT-BR). O jogador monta prompts por componentes (task, persona, grounding, formato, constraints, reasoning), compila e vê a saída simulada do "modelo" — boa, medíocre ou caótica, dependendo da qualidade das escolhas.
 
 A progressão leva um **iniciante absoluto** ao nível profissional: I1–I4 (fundamentos, iteração, verificação, segurança) → M1–M6 (técnicas profissionais) → MT (prova final). Total: 11 missões, 1300 XP.
