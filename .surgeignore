@@ -1,0 +1,7 @@
+# surge deploys the repo root as-is; keep only the game itself
+.git
+.gitignore
+.surgeignore
+serve.py
+README.md
+ROADMAP.md
