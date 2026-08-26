@@ -17,6 +17,7 @@ export function newState(courseId){
     syncs: [],      // best sync % per mission index
     cleared: [],    // mission passed the gate (tier mid/good)
     granted: [],    // XP already granted for this mission (first clear only)
+    attempts: [],   // compile count per mission index (mentorship signal)
     unlocked: [],   // codex protocol codes revealed
   };
 }

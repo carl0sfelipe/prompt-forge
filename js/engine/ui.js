@@ -3,7 +3,7 @@
    Course-agnostic: everything data-driven comes from (course, state).
    ============================================================ */
 import { getState } from "./state.js";
-import { rankFor } from "./scoring.js";
+import { rankFor, CERT_THRESHOLD } from "./scoring.js";
 import { t, tf } from "./i18n.js";
 import { burst } from "./fx.js";
 import { SFX } from "./audio.js";
@@ -50,16 +50,51 @@ export function renderCodex(course){
   }).join("");
 }
 
-export function showCert(course){
+export function showCert(course, onRetrain){
   const S = getState();
   const syncs = S.syncs.filter(v => typeof v === "number");
+  const avg = syncs.length ? Math.round(syncs.reduce((a, b) => a + b, 0) / syncs.length) : 0;
+  const allCleared = S.cleared.filter(Boolean).length === course.missions.length;
+  const pass = allCleared && avg >= CERT_THRESHOLD;
+
   $("#certTitle").textContent = course.certTitle;
+  const stamp = document.querySelector(".cert-stamp");
+  stamp.textContent = pass ? t("certStamp") : t("certPending");
+  stamp.classList.toggle("fail", !pass);
   $("#certName").textContent = t("operativeCert") + S.codename;
   $("#cXp").textContent = S.xp;
-  $("#cSync").textContent = (syncs.length ? Math.round(syncs.reduce((a, b) => a + b, 0) / syncs.length) : 0) + "%";
+  $("#cSync").textContent = avg + "%";
+  $("#cSync").style.color = pass ? "" : "var(--red)";
   $("#cMiss").textContent = S.cleared.filter(Boolean).length + "/" + course.missions.length;
   $("#certProtos").innerHTML = course.missions.map(m => `<span class="chip">◆ ${esc(m.protocol.name)}</span>`).join("");
-  $("#certFoot").textContent = course.certFoot;
+  $("#certFoot").textContent = pass ? course.certFoot : tf("pendingNote", { need: CERT_THRESHOLD, avg });
+
+  // attempts = mentorship signal (see academy manual): total compiles + first-try clears
+  const attemptsTotal = (S.attempts ?? []).reduce((a, b) => a + (b || 0), 0);
+  const firstTry = course.missions.reduce((a, _, i) => a + ((S.attempts?.[i] === 1 && S.cleared[i]) ? 1 : 0), 0);
+  let line = document.getElementById("certAttempts");
+  if(!line){
+    line = document.createElement("div");
+    line.id = "certAttempts";
+    line.className = "cert-attempts";
+    document.querySelector(".cert-stats").after(line);
+  }
+  line.textContent = tf("attemptsLine", { n: attemptsTotal, k: firstTry, t: course.missions.length });
+
+  // retrain button: only when not certified — jump straight to the weakest mission
+  const oldBtn = document.getElementById("retrainBtn");
+  if(oldBtn) oldBtn.remove();
+  if(!pass && typeof onRetrain === "function"){
+    let weakest = 0, worst = Infinity;
+    course.missions.forEach((_, i) => { const s = S.syncs[i] ?? 0; if(s < worst){ worst = s; weakest = i; } });
+    const btn = document.createElement("button");
+    btn.id = "retrainBtn";
+    btn.className = "btn btn-danger";
+    btn.textContent = t("retrain");
+    btn.addEventListener("click", () => onRetrain(weakest));
+    line.after(btn);
+  }
+
   $("#cert").classList.remove("hidden");
   burst(innerWidth / 2, innerHeight / 3, "255,179,71", 50);
   setTimeout(() => burst(innerWidth / 3, innerHeight / 2, "65,224,200", 40), 300);

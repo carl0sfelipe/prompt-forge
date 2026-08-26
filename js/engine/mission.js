@@ -140,6 +140,8 @@ function showResult(course, m){
   const advance = mayAdvance(run);
   const firstPass = advance && !S.granted[S.mi];
   const gain = firstPass ? run.pts * XP_PER_POINT : 0;
+  S.attempts[S.mi] = (S.attempts[S.mi] ?? 0) + 1;
+  const attemptNo = S.attempts[S.mi];
 
   const tierName = { good: t("tierGood"), mid: t("tierMid"), bad: t("tierBad") }[run.tier];
   S.syncs[S.mi] = Math.max(S.syncs[S.mi] ?? 0, run.sync);
@@ -171,7 +173,7 @@ function showResult(course, m){
   const res = $("#result"); res.classList.remove("hidden");
   res.innerHTML = `
     <div class="tierrow"><span class="tier t-${run.tier}">${tierName}</span>
-      <span class="tiersub">${t("sync")} ${run.sync}% · ${run.pts}/${run.max} ${t("pts")} · ${t("best")}${S.syncs[S.mi]}% · ${t("protocolW")} "${esc(m.protocol.name)}" ${advance ? t("recorded") : t("notRecorded")}</span></div>
+      <span class="tiersub">${t("sync")} ${run.sync}% · ${run.pts}/${run.max} ${t("pts")} · ${t("best")}${S.syncs[S.mi]}% · ${t("attempt")} ${attemptNo} · ${t("protocolW")} "${esc(m.protocol.name)}" ${advance ? t("recorded") : t("notRecorded")}</span></div>
     <div>
       <div class="ptitle" style="padding:0 0 .5rem">${t("simResponse")}</div>
       <div class="outbox"><span id="otype"></span><span class="cursorblk"></span></div>
@@ -226,7 +228,11 @@ function showResult(course, m){
     if(advance){
       $("#contBtn").addEventListener("click", () => {
         SFX.insert();
-        last ? showCert(course) : stampTo(S.mi + 1, course);
+        last ? showCert(course, idx => {
+          $("#cert").classList.add("hidden");
+          SFX.select();
+          stampTo(idx, course);
+        }) : stampTo(S.mi + 1, course);
       });
       $("#replayBtn")?.addEventListener("click", () => { SFX.select(); renderMission(course); });
     }else{

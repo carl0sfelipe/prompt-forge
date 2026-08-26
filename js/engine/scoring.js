@@ -8,6 +8,7 @@
      bad   = below half — mission must be re-run (gate)
    ============================================================ */
 export const XP_PER_POINT = 25;
+export const CERT_THRESHOLD = 75; // avg best-run sync % required to certify
 
 export function scoreRun(slots, sel){
   let pts = 0;
