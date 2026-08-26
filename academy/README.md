@@ -11,7 +11,9 @@ Um programa de treinamento em dois níveis:
 - **Núcleo comum** (obrigatório, todos os estagiários): a gramática do trabalho com IA (Módulo 1) e a cultura de engenharia que sobreviveu à era dos modelos (Módulo 2 — nível conceitual, acessível a perfis não-dev).
 - **Trilhas de especialização** (conforme a frente): software house, revenda de GPU, mini datacenter.
 
-A avaliação é **aplicada jogando**: os cursos PROMPT//FORGE (Módulo 1) e VANILLA//FORGE (Módulo 2, em construção) medem em cada missão a qualidade das decisões do aluno. **Aprovação = sync médio ≥ 75%.** O certificado registra tentativas — errar faz parte do método, e o histórico é honesto.
+A avaliação é **aplicada jogando**: os cursos PROMPT//FORGE (Módulo 1) e VANILLA//FORGE (Módulo 2) medem em cada missão a qualidade das decisões do aluno. **Aprovação = sync médio ≥ 75%.** O certificado registra tentativas — errar faz parte do método, e o histórico é honesto.
+
+**Labs de campo (Módulo 2):** cada missão traz um projeto fictício para baixar (.zip montado no navegador) com uma demanda real e uma **pegadinha** escondida. Fluxo recomendado: baixar → descompactar → abrir a pasta com o **opencode** (`curl -fsSL https://opencode.ai/install | bash` ou `npm i -g opencode-ai`) → trabalhar a demanda com a IA → conferir os critérios de aceite → responder o console de julgamento no jogo. O veredito revela a pegadinha e o anti-padrão de cada opção errada.
 
 ## Estrutura do material
 

@@ -4,7 +4,9 @@
    The boot screen turns into a course picker automatically when
    there is more than one. */
 import promptEngineering from "./prompt-engineering/course.js";
+import vanillaEngineering from "./vanilla-engineering/course.js";
 
 export const COURSES = [
   promptEngineering,
+  vanillaEngineering,
 ];

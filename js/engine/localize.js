@@ -44,6 +44,14 @@ export function localizeCourse(course, locale){
           })),
         };
       }),
+      lab: m.lab ? {
+        folder: m.lab.folder,
+        task: pick(m.lab.task, lm.lab?.task),
+        acceptance: lm.lab?.acceptance ?? m.lab.acceptance,
+        catch: pick(m.lab.catch, lm.lab?.catch),
+        // code files are shared; translated READMEs override by filename
+        files: lm.lab?.files ? { ...m.lab.files, ...lm.lab.files } : m.lab.files,
+      } : undefined,
       outcomes: {
         good: pick(m.outcomes.good, lm.outcomes?.good),
         mid: pick(m.outcomes.mid, lm.outcomes?.mid),

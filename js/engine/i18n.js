@@ -34,6 +34,9 @@ const DICT = {
     // mission view
     missionBrief: "MISSION BRIEF", providedData: "PROVIDED DATA", fieldNote: "FIELD NOTE ▸",
     successCriteria: "SUCCESS CRITERIA",
+    labTitle: "FIELD LAB", labDownload: "⬇ Download lab", labCatch: "THE CATCH — did you fall for it?",
+    labAccept: "ACCEPTANCE CRITERIA",
+    labOpencode: "Recommended flow: unzip the lab, open the folder with opencode, let the AI help you work the demand — but YOU decide. The console below tests your judgment on this exact case.",
     console: "PROMPT ASSEMBLY CONSOLE", awaiting: "// awaiting component…",
     shelf: "COMPONENT SHELF", shelfHint: "select a component · click again to replace",
     run: "⚡ Compile & Run Prompt", compiling: "COMPILING…",
@@ -84,6 +87,9 @@ const DICT = {
     // mission view
     missionBrief: "BRIEFING DA MISSÃO", providedData: "DADOS FORNECIDOS", fieldNote: "NOTA DE CAMPO ▸",
     successCriteria: "CRITÉRIOS DE SUCESSO",
+    labTitle: "LAB DE CAMPO", labDownload: "⬇ Baixar o lab", labCatch: "A PEGADINHA — você caiu?",
+    labAccept: "CRITÉRIOS DE ACEITE",
+    labOpencode: "Fluxo recomendado: descompacte o lab, abra a pasta com o opencode, deixe a IA ajudar a trabalhar a demanda — mas DECIDA você. O console abaixo testa o seu julgamento nesse caso exato.",
     console: "CONSOLE DE MONTAGEM DE PROMPT", awaiting: "// aguardando componente…",
     shelf: "PRATELEIRA DE COMPONENTES", shelfHint: "selecione um componente · clique de novo para substituir",
     run: "⚡ Compilar & Executar Prompt", compiling: "COMPILANDO…",

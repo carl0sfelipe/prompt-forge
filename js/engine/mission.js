@@ -17,6 +17,7 @@ import { $, esc, toast, shuffle, updateHUD, renderCodex, streamText, showCert } 
 import { t, tf } from "./i18n.js";
 import { SFX } from "./audio.js";
 import { burst, burstAt } from "./fx.js";
+import { downloadZip } from "./zip.js";
 
 let sel = {};          // slotId -> option index (within shuffled _opts)
 let activeSlot = null; // slot currently shown in the component shelf
@@ -62,6 +63,15 @@ export function renderMission(course){
         <p class="fnote"><b>${t("fieldNote")}</b> ${m.brief.note}</p>
         <div><div class="ptitle" style="padding:0 0 .5rem">${t("successCriteria")}</div>
           <div class="criteria">${m.brief.criteria.map(c => `<span class="chip">✓ ${esc(c)}</span>`).join("")}</div></div>
+        ${m.lab ? `
+        <div class="lab">
+          <div class="ll">📦 ${t("labTitle")} · ${esc(m.lab.folder)}.zip</div>
+          <p class="lab-task">${m.lab.task}</p>
+          <div class="lab-accept">${t("labAccept")}</div>
+          <div class="criteria">${m.lab.acceptance.map(a => `<span class="chip lab-chip">✓ ${esc(a)}</span>`).join("")}</div>
+          <div style="margin-top:.8rem"><button class="btn btn-ghost" id="labBtn">${t("labDownload")} — ${esc(m.lab.folder)}.zip</button></div>
+          <p class="lab-tip">🛠 ${t("labOpencode")}</p>
+        </div>` : ""}
       </div>
     </aside>
     <section class="panel">
@@ -85,6 +95,7 @@ export function renderMission(course){
     if(locked) return;
     activeSlot = el.dataset.slot; SFX.select(); paintActive(); renderDeck(course);
   }));
+  $("#labBtn")?.addEventListener("click", () => { downloadZip(m.lab.folder, m.lab.files); SFX.insert(); });
   $("#runBtn").addEventListener("click", () => compile(course));
   paintActive(); renderDeck(course); updateHUD(course);
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -192,6 +203,7 @@ function showResult(course, m){
         <h4>${esc(m.protocol.name)}</h4><p>${m.protocol.desc}</p></div>` : `
       <div class="lesson"><div class="ll">${t("gate")}</div>
         <h4>${t("gateTitle")}</h4><p>${t("gateBody")}</p></div>`}
+      ${m.lab ? `<div class="lesson catch"><div class="ll">🕳 ${t("labCatch")}</div><p>${m.lab.catch}</p></div>` : ""}
       <div class="btnrow">
         ${advance
           ? `<button class="btn btn-primary" id="contBtn">${last ? t("claimCert") : t("advanceTo") + esc(next.code) + " · " + esc(next.name) + " ▸"}</button>

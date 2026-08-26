@@ -124,6 +124,17 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);overflow-x:hi
 .criteria{display:flex;flex-wrap:wrap;gap:.4rem}
 .chip{font:500 .64rem var(--mono);letter-spacing:.08em;color:var(--green);border:1px solid rgba(126,231,135,.35);
   padding:.3rem .55rem;border-radius:3px;background:rgba(126,231,135,.06)}
+.chip.lab-chip{color:var(--cyan);border-color:rgba(65,224,200,.35);background:rgba(65,224,200,.06)}
+
+/* field lab panel */
+.lab{margin-top:1rem;border:1px solid rgba(255,179,71,.4);border-radius:8px;background:rgba(255,179,71,.05);padding:1rem 1.1rem}
+.lab .ll{font:600 .64rem var(--mono);letter-spacing:.26em;color:var(--amber);margin-bottom:.5rem}
+.lab .lab-task{font:400 .85rem/1.6 var(--body);color:var(--ink);margin-bottom:.6rem}
+.lab .lab-accept{font:600 .64rem var(--mono);letter-spacing:.2em;color:var(--dim);margin:.7rem 0 .4rem}
+.lab .lab-tip{font:400 .72rem/1.6 var(--body);color:var(--dim);margin-top:.7rem;border-top:1px dashed var(--line);padding-top:.6rem}
+.lab .btn{height:44px;padding:.7rem 1.2rem}
+.lesson.catch{border-color:rgba(181,140,255,.5);background:rgba(181,140,255,.06)}
+.lesson.catch .ll{color:var(--violet)}
 
 /* console */
 .console{padding:1.2rem 1.3rem 1.5rem;display:flex;flex-direction:column;gap:1rem}

@@ -58,6 +58,8 @@ Três princípios que sustentam o programa inteiro:
 ## 7. Administração do jogo
 
 - Roda em https://carl0sfelipe.github.io/prompt-forge/ (ou local: `python3 serve.py`).
+- **Dois cursos** no seletor da tela de boot: PROMPT//FORGE (Módulo 1) e VANILLA//FORGE (Módulo 2). Progresso independente por curso.
+- **Labs de campo (Módulo 2):** cada missão tem painel "FIELD LAB" com download do projeto fictício (.zip), demanda, critérios de aceite e a pegadinha revelada no veredito. Recomende o opencode como ferramenta de trabalho (instalação: `curl -fsSL https://opencode.ai/install | bash`); regra de ouro do programa vale dobrada no lab: **a IA executa, o aluno decide e verifica** — os critérios de aceite são a régua.
 - Progresso fica no `localStorage` do navegador por curso; RESET no HUD apaga (dois cliques, confirmado).
 - Para aplicar em prova limpa: reset antes de começar, um perfil de navegador por aluno.
-- Para mudar questões/dificuldade: editar `js/courses/<curso>/mission-*.js` — o linter da engine acusa no console se alguém quebrar o contrato anti-exploit (resposta certa nunca é a mais longa/curta).
+- Para mudar questões/dificuldade/labs: editar `js/courses/<curso>/mission-*.js` (labs são o campo `lab`, arquivos em `lab.files`) — o linter da engine acusa no console se alguém quebrar o contrato anti-exploit (resposta certa nunca é a mais longa/curta).
